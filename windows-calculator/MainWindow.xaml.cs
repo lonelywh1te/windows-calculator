@@ -4,9 +4,6 @@ using System.Windows.Input;
 
 namespace windows_calculator
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow
     {
         public MainWindow()
@@ -23,26 +20,26 @@ namespace windows_calculator
             if (Calculator.isBlocked) {
                 Value = Calculator.ErrorMessage;
             }
-            if (Value.Length > 12 && Value.Length < 16)
+            if (Value.Length > 10 && Value.Length < 14)
             {
-                Display.FontSize = 20;
-                Display.Margin = new Thickness(0, 5, 10, 0);
+                Display.FontSize = 30;
+                Display.Margin = new Thickness(0, 8, 10, 0);
             }
-            else if (Value.Length >= 16 && Value.Length < 21) {
-                Display.FontSize = 15;
-                Display.Margin = new Thickness(0 , 8, 10, 0);
+            else if (Value.Length >= 14 && Value.Length < 21) {
+                Display.FontSize = 23;
+                Display.Margin = new Thickness(0 , 15, 10, 0);
             }
             else if (Value.Length >= 21 && Value.Length < 25) {
-                Display.FontSize = 13;
-                Display.Margin = new Thickness(0 , 10, 10, 0);
+                Display.FontSize = 22;
+                Display.Margin = new Thickness(0 , 15, 10, 0);
             }
             else if (Value.Length >= 25)
             {
-                Display.FontSize = 12;
-                Display.Margin = new Thickness(0 , 12, 10, 0);
+                Display.FontSize = 15;
+                Display.Margin = new Thickness(0 , 20, 10, 0);
             }
             else {
-                Display.FontSize = 25;
+                Display.FontSize = 40;
                 Display.Margin = new Thickness(0, 0, 10, 0);
             }
             Display.Text = Value == "" ? "0" : Value;
@@ -57,7 +54,6 @@ namespace windows_calculator
                 HistoryDisplay.Text = HistorySubString;
             }
         }
-        
         private void DigitClicked(object sender, RoutedEventArgs e)
         {
             Calculator.AddDigit((sender as Button).Content.ToString());
@@ -89,7 +85,6 @@ namespace windows_calculator
             UpdateHistory(Calculator.UserHistory);
             UpdateDisplay(Calculator.UserInput);
         }
-
         private void PercentClicked(object sender, RoutedEventArgs e)
         {
             Calculator.UserInput = Display.Text;
@@ -97,7 +92,6 @@ namespace windows_calculator
             UpdateHistory(Calculator.UserHistory);
             UpdateDisplay(Calculator.UserInput);
         }
-        
         private void ReciprocClicked(object sender, RoutedEventArgs e)
         {
             Calculator.UserInput = Display.Text;
@@ -144,7 +138,6 @@ namespace windows_calculator
                     break;
             }
         }
-
         private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
         {
             bool shift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
@@ -167,22 +160,18 @@ namespace windows_calculator
             if (e.Key == Key.Multiply || (shift && e.Key == Key.D8)) btn_multiplication.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             if (e.Key == Key.Enter) btn_equal.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
-
         private void HelpClicked(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://support.microsoft.com/ru-ru/windows");
         }
-
         private void AboutClicked(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("windows-calculator \n lonelywh1te \n https://github.com/lonelywh1te/windows-calculator");
         }
-
         private void InBufferClicked(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(Display.Text);
         }
-
         private void OutBufferClicked(object sender, RoutedEventArgs e)
         {
             double number;

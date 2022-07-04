@@ -5,18 +5,18 @@ namespace windows_calculator
     public class Calculate
     {
         public double Result = 0;
-        public double MemoryNum = 0;
-        public bool isFirst = true; // проверка первого числа
+        private double MemoryNum = 0;
+        private bool isFirst = true; // проверка первого числа
             
-        public bool isWaiting = true; // состояние ожидания
-        public bool isFocusing = false; // состояние фокусировки на числе
+        private bool isWaiting = true; // состояние ожидания
+        private bool isFocusing = false; // состояние фокусировки на числе
         public bool isBlocked = false;
-        public bool OperationChanged = false; // смена знака
+        private bool OperationChanged = false; // смена знака
 
         public string UserInput = "";
         public string UserHistory = "";
-        public string FocusNumber = "";
-        public string LastOperation = "";
+        private string FocusNumber = "";
+        private string LastOperation = "";
         public string ErrorMessage = "";
 
         private const int LimitAfterComma = 14;
@@ -26,7 +26,7 @@ namespace windows_calculator
             UserInput += ButtonContent;
             isWaiting = false;
         }
-        public void Error(string ErrorType)
+        private void Error(string ErrorType)
         {
             switch (ErrorType) {
                 case "-sqrt":
@@ -45,7 +45,6 @@ namespace windows_calculator
         public void ExecuteOperation(string ButtonContent)
         {
             if (isBlocked) return;
-            if (UserInput == "") UserInput = "0";
             if (LastOperation != ButtonContent && !isFirst && !OperationChanged) {
                 OperationChanged = true;
                 ExecuteOperation(LastOperation);
