@@ -45,6 +45,7 @@ namespace windows_calculator
         public void ExecuteOperation(string ButtonContent)
         {
             if (isBlocked) return;
+            if (UserInput == "") UserInput = "0";
             if (LastOperation != ButtonContent && !isFirst && !OperationChanged) {
                 OperationChanged = true;
                 ExecuteOperation(LastOperation);
@@ -163,7 +164,7 @@ namespace windows_calculator
         }
         public void Backspace()
         {
-            if (!isWaiting && !isBlocked) UserInput = UserInput.Remove(UserInput.Length - 1);
+            if (!isWaiting && !isBlocked && !UserInput.Contains("E")) UserInput = UserInput.Remove(UserInput.Length - 1);
         }
         public void ClearInput()
         {
@@ -237,7 +238,7 @@ namespace windows_calculator
             isWaiting = false;
             isFocusing = false; 
             OperationChanged = false;
-            UserInput = Result.ToString("0.###############");
+            UserInput = Result.ToString();
             UserHistory = "";
             FocusNumber = "";
             LastOperation = "";

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace windows_calculator
 {
@@ -122,7 +123,7 @@ namespace windows_calculator
             Calculator.UserInput = Display.Text;
             Calculator.Equal();
             UpdateHistory(Calculator.UserHistory);
-            UpdateDisplay(Calculator.Result.ToString("0.###############"));
+            UpdateDisplay(Calculator.Result.ToString());
         }
         private void ClearClicked(object sender, RoutedEventArgs e)
         {
@@ -141,6 +142,53 @@ namespace windows_calculator
                     UpdateHistory(Calculator.UserHistory);
                     UpdateDisplay(Calculator.UserInput);
                     break;
+            }
+        }
+
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            bool shift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+            
+            if (e.Key == Key.Back) btn_backspace.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.Delete) btn_clear_entry.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D1) btn_1.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D2) btn_2.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D3) btn_3.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D4) btn_4.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D5) btn_5.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D6) btn_6.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D7) btn_7.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D8) btn_8.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D9) btn_9.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.D0) btn_0.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.OemPlus) btn_plus.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.OemMinus || e.Key == Key.Subtract) btn_minus.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.OemQuestion || e.Key == Key.Divide) btn_division.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.Multiply || (shift && e.Key == Key.D8)) btn_multiplication.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (e.Key == Key.Enter) btn_equal.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
+
+        private void HelpClicked(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://support.microsoft.com/ru-ru/windows");
+        }
+
+        private void AboutClicked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("windows-calculator \n lonelywh1te \n https://github.com/lonelywh1te/windows-calculator");
+        }
+
+        private void InBufferClicked(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(Display.Text);
+        }
+
+        private void OutBufferClicked(object sender, RoutedEventArgs e)
+        {
+            double number;
+            if (double.TryParse(Clipboard.GetText(), out number)) {
+                Calculator.UserInput = Clipboard.GetText();
+                Display.Text = Clipboard.GetText();
             }
         }
     }
